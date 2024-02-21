@@ -3,6 +3,7 @@ const User = require("../Schema/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Upload = require("../Schema/fileSchema");
+require("dotenv").config();
 
 exports.addUser = async (req, res) => {
   const { password, email, username, profilePicture } = req.body;
@@ -55,7 +56,7 @@ exports.login = async (req, res) => {
     if (!passCompare) {
       return res.status(500).json("Wrong Password");
     }
-    const token = jwt.sign({ user_id: user.id }, "MY_SERVER_SECRET", {
+    const token = jwt.sign({ user_id: user.id }, `${process.env.APP_SECRET}`, {
       expiresIn: "1h",
     });
     return res
@@ -97,7 +98,7 @@ exports.getUserById = async (req, res) => {
       const upload = await Upload.findById(profilePicture);
       if (upload) {
         console.log(upload, "jj");
-        profilepictureUrl = upload.path; // Assuming the field containing the file path is 'filePath'
+        profilepictureUrl = upload.path;
       }
     }
 

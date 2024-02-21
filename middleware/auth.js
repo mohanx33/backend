@@ -8,7 +8,7 @@ const authMiddleware = async (req, res, next) => {
     if (!token) {
       return res.status(404).json("Access Not granted");
     }
-    jwt.verify(token, "MY_SERVER_SECRET", (err, user) => {
+    jwt.verify(token, `${process.env.APP_SECRET}`, (err, user) => {
       if (err) {
         return res.status(500).json(`${err}Invalid token`);
       }

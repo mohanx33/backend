@@ -15,7 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 mongoose
-  .connect("mongodb+srv://mohroot:mohroot@recruit.kriyklb.mongodb.net/")
+  .connect(
+    `mongodb+srv://${process.env.MONGOOSE_USER}:${process.env.MONGOOSE_PASSWORD}@recruit.kriyklb.mongodb.net/`
+  )
   .then((res) => {
     console.log("Mongoose Connected Successfully");
   })
